@@ -51,11 +51,6 @@ class Pagination extends StatelessWidget {
               int idx = key < 0 ? 0 : key;
               String title = entry.value.title;
 
-              print('===================');
-              print(idx);
-              print(index);
-              print(title);
-
               return title == 'divider'
                   ? Expanded(
                       child: Container(

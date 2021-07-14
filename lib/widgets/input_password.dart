@@ -176,7 +176,7 @@ class _InputPasswordState extends State<InputPassword> {
             ],
           ),
         ),
-        widget.showButtonNext ? ButtonNext(() => onPressButton()) : Container(),
+        widget.showButtonNext ? ButtonNext(onPressButton) : Container(),
       ],
     );
   }

@@ -6,10 +6,22 @@ import 'package:gin_finans/widgets/top_content.dart';
 class InputPersonalInformation extends StatefulWidget {
   final bool showButtonNext;
   final Function onPressNext;
+  final String? goalValue;
+  final String? monthlyIncomeValue;
+  final String? monthlyExpenceValue;
+  final void Function(String?) onChangeGoal;
+  final void Function(String?) onChangeMonthlyIncome;
+  final void Function(String?) onChangeMonthlyExpence;
 
   InputPersonalInformation({
     required this.showButtonNext,
     required this.onPressNext,
+    required this.goalValue,
+    required this.monthlyIncomeValue,
+    required this.monthlyExpenceValue,
+    required this.onChangeGoal,
+    required this.onChangeMonthlyIncome,
+    required this.onChangeMonthlyExpence,
   });
 
   @override
@@ -18,26 +30,34 @@ class InputPersonalInformation extends StatefulWidget {
 }
 
 class _InputPersonalInformationState extends State<InputPersonalInformation> {
-  String? _goalValue = '- Choose Option -';
-  String? _monthlyIncomeValue = '- Choose Option -';
-  String? _monthlyExpenceValue = '- Choose Option -';
+  String get errorMessage {
+    const String defaultValue = '- Choose Option -';
 
-  void onChangeGoal(value) {
-    setState(() {
-      _goalValue = value!;
-    });
+    if (widget.goalValue == defaultValue) {
+      return 'Goal for activation harus diisi';
+    } else if (widget.monthlyIncomeValue == defaultValue) {
+      return 'Monthly Income harus diisi';
+    } else if (widget.monthlyExpenceValue == defaultValue) {
+      return 'Monthly Expence harus diisi';
+    }
+
+    return '';
   }
 
-  void onChangeMonthlyIncome(value) {
-    setState(() {
-      _monthlyIncomeValue = value;
-    });
-  }
+  void onPressButton() {
+    final snackBar = SnackBar(
+      content: Text(errorMessage),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {},
+      ),
+    );
 
-  void onChangeMonthlyExpence(value) {
-    setState(() {
-      _monthlyExpenceValue = value;
-    });
+    if (errorMessage.isEmpty) {
+      widget.onPressNext();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
@@ -57,31 +77,29 @@ class _InputPersonalInformationState extends State<InputPersonalInformation> {
               Column(
                 children: [
                   Dropdown(
-                    chosenValue: _goalValue,
-                    onChange: onChangeGoal,
+                    chosenValue: widget.goalValue,
+                    onChange: widget.onChangeGoal,
                     items: ['- Choose Option -', 'One', 'Two', 'Three'],
                     label: 'Goal for activation',
                   ),
                   Dropdown(
-                    chosenValue: _monthlyIncomeValue,
-                    onChange: onChangeMonthlyIncome,
+                    chosenValue: widget.monthlyIncomeValue,
+                    onChange: widget.onChangeMonthlyIncome,
                     items: ['- Choose Option -', 'One', 'Two', 'Three'],
-                    label: 'Goal for activation',
+                    label: 'Monthly income',
                   ),
                   Dropdown(
-                    chosenValue: _monthlyExpenceValue,
-                    onChange: onChangeMonthlyExpence,
+                    chosenValue: widget.monthlyExpenceValue,
+                    onChange: widget.onChangeMonthlyExpence,
                     items: ['- Choose Option -', 'One', 'Two', 'Three'],
-                    label: 'Goal for activation',
+                    label: 'Monthly expense',
                   ),
                 ],
               ),
             ],
           ),
         ),
-        widget.showButtonNext
-            ? ButtonNext(() => widget.onPressNext())
-            : Container(),
+        widget.showButtonNext ? ButtonNext(onPressButton) : Container(),
       ],
     );
   }

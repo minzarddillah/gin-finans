@@ -22,7 +22,7 @@ class _InputEmailState extends State<InputEmail> {
         .hasMatch(text);
   }
 
-  void onPressNext(ctx) {
+  void onPressNext() {
     var text = emailController.text;
     var tmpError = '';
 
@@ -39,7 +39,7 @@ class _InputEmailState extends State<InputEmail> {
     });
 
     if (tmpError.isEmpty) {
-      Navigator.of(ctx).push(
+      Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) {
             return CreateAccount(email: text);
@@ -111,9 +111,7 @@ class _InputEmailState extends State<InputEmail> {
             ],
           ),
         ),
-        widget.showButtonNext
-            ? ButtonNext(() => onPressNext(context))
-            : Container(),
+        widget.showButtonNext ? ButtonNext(() => onPressNext()) : Container(),
       ],
     );
   }
