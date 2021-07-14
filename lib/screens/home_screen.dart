@@ -37,8 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Pagination(
               index: -1,
               pages: pages,
-              onPressPagination: () {},
-              disabled: true,
             ),
             Expanded(
               child: InputEmail(showButtonNext: showButtonNext),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_conditional_rendering/conditional_switch.dart';
 import 'package:gin_finans/models/page_model.dart';
 import 'package:gin_finans/widgets/input_password.dart';
+import 'package:gin_finans/widgets/input_personal_information.dart';
 import 'package:gin_finans/widgets/pagination.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -22,12 +23,6 @@ class _CreateAccountState extends State<CreateAccount> {
   ];
   var indexPage = 0;
   var passwordController = TextEditingController();
-
-  void onPressPagination(index) {
-    setState(() {
-      indexPage = index;
-    });
-  }
 
   void onPressNext() {
     if (indexPage < pages.length - 1) {
@@ -59,12 +54,11 @@ class _CreateAccountState extends State<CreateAccount> {
         padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Pagination(
               index: indexPage,
               pages: pages,
-              onPressPagination: onPressPagination,
-              disabled: false,
             ),
             Expanded(
               child: ConditionalSwitch.single(
@@ -76,7 +70,10 @@ class _CreateAccountState extends State<CreateAccount> {
                         password: passwordController,
                         onPressNext: onPressNext,
                       ),
-                  1: (BuildContext context) => Text('1'),
+                  1: (BuildContext context) => InputPersonalInformation(
+                        showButtonNext: showButtonNext,
+                        onPressNext: onPressNext,
+                      ),
                   2: (BuildContext context) => Text('2'),
                   3: (BuildContext context) => Text('3'),
                 },

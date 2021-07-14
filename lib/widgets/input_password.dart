@@ -3,6 +3,7 @@ import 'package:gin_finans/models/complexity_model.dart';
 import 'package:gin_finans/models/score_model.dart';
 import 'package:gin_finans/widgets/button_next.dart';
 import 'package:gin_finans/widgets/complexity.dart';
+import 'package:gin_finans/widgets/top_content.dart';
 
 class InputPassword extends StatefulWidget {
   final bool showButtonNext;
@@ -115,28 +116,9 @@ class _InputPasswordState extends State<InputPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 14),
-                    child: Text(
-                      'Create Password',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 14),
-                    child: Text(
-                      'Password will be used to login account',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
+              TopContent(
+                title: 'Create Password',
+                subtitle: 'Password will be used to login account',
               ),
               TextField(
                 enableSuggestions: false,

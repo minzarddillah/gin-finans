@@ -6,14 +6,10 @@ import './button_pagination.dart';
 class Pagination extends StatelessWidget {
   final int index;
   final List<PageModel> pages;
-  final Function onPressPagination;
-  final bool disabled;
 
   Pagination({
     required this.index,
     required this.pages,
-    required this.onPressPagination,
-    required this.disabled,
   });
 
   List<PageModel> get getPages {
@@ -32,29 +28,51 @@ class Pagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        ...getPages.asMap().entries.map((entry) {
-          int key = entry.key - 1;
-          int idx = key < 0 ? 0 : key;
-          String title = entry.value.title;
+        Positioned(
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ...pages.asMap().entries.map((entry) {
+              int key = entry.key;
+              int idx = key < 0 ? 0 : key;
+              String title = entry.value.title;
 
-          return title == 'divider'
-              ? Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
+              print('===================');
+              print(idx);
+              print(index);
+              print(title);
+
+              return title == 'divider'
+                  ? Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                )
-              : ButtonPagination(
-                  title: title,
-                  isActive: idx <= index,
-                );
-        }).toList(),
+                    )
+                  : ButtonPagination(
+                      title: title,
+                      isActive: idx <= index,
+                    );
+            }).toList(),
+          ],
+        ),
       ],
     );
   }

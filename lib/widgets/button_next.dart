@@ -11,7 +11,7 @@ class ButtonNext extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         primary: Colors.white,
-        backgroundColor: Colors.blue[400],
+        backgroundColor: Colors.blue[300],
       ),
       child: Container(
         width: double.infinity,
