@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/pages_model.dart';
+import '../models/page_model.dart';
 import './button_pagination.dart';
 
 class Pagination extends StatelessWidget {
@@ -36,7 +36,8 @@ class Pagination extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ...getPages.asMap().entries.map((entry) {
-          int idx = entry.key;
+          int key = entry.key - 1;
+          int idx = key < 0 ? 0 : key;
           String title = entry.value.title;
 
           return title == 'divider'
@@ -51,10 +52,7 @@ class Pagination extends StatelessWidget {
                 )
               : ButtonPagination(
                   title: title,
-                  index: idx,
-                  onPressed: onPressPagination,
-                  isActive: idx == index,
-                  disabled: disabled,
+                  isActive: idx <= index,
                 );
         }).toList(),
       ],

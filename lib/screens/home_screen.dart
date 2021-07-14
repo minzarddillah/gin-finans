@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/pagination.dart';
 import '../widgets/input_email.dart';
 
-import '../models/pages_model.dart';
+import '../models/page_model.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Container(
         width: double.infinity,
-        padding: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 20),
+        padding: EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
         child: Column(
           children: <Widget>[
             Pagination(
@@ -43,17 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: InputEmail(showButtonNext: showButtonNext),
             ),
-            // ConditionalSwitch.single(
-            //   context: context,
-            //   valueBuilder: (BuildContext context) => indexPage,
-            //   caseBuilders: {
-            //     '1': ,
-            //     '2': ,
-            //     '3': ,
-            //     '4': ,
-            //   },
-            //   fallbackBuilder: fallbackBuilder,
-            // ),
           ],
         ),
       ),

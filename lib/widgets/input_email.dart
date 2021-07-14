@@ -3,26 +3,55 @@ import 'package:flutter/material.dart';
 import './button_next.dart';
 import '../screens/create_account.dart';
 
-class InputEmail extends StatelessWidget {
-  final emailController = TextEditingController();
+class InputEmail extends StatefulWidget {
   final bool showButtonNext;
 
   InputEmail({required this.showButtonNext});
 
+  @override
+  _InputEmailState createState() => _InputEmailState();
+}
+
+class _InputEmailState extends State<InputEmail> {
+  final emailController = TextEditingController();
+  String errorText = '';
+
+  bool isValidEmail(text) {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(text);
+  }
+
   void onPressNext(ctx) {
-    Navigator.of(ctx).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return CreateAccount();
-        },
-      ),
-    );
+    var text = emailController.text;
+    var tmpError = '';
+
+    if (text.isEmpty) {
+      tmpError = 'Email harus diisi';
+    } else if (!isValidEmail(text)) {
+      tmpError = 'Format email salah';
+    } else {
+      tmpError = '';
+    }
+
+    setState(() {
+      errorText = tmpError;
+    });
+
+    if (tmpError.isEmpty) {
+      Navigator.of(ctx).push(
+        MaterialPageRoute(
+          builder: (_) {
+            return CreateAccount(email: text);
+          },
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: Column(
@@ -30,7 +59,7 @@ class InputEmail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 10),
                 child: RichText(
                   text: TextSpan(
                     style: TextStyle(
@@ -50,7 +79,7 @@ class InputEmail extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 10),
                 child: Text(
                   'Welcome to The Bank of The Future. Manage and track your accounts on the go.',
                   style: TextStyle(
@@ -74,6 +103,7 @@ class InputEmail extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide.none,
                     ),
+                    errorText: errorText.isEmpty ? null : errorText,
                   ),
                   controller: emailController,
                 ),
@@ -81,7 +111,9 @@ class InputEmail extends StatelessWidget {
             ],
           ),
         ),
-        showButtonNext ? ButtonNext(() => onPressNext(context)) : Container(),
+        widget.showButtonNext
+            ? ButtonNext(() => onPressNext(context))
+            : Container(),
       ],
     );
   }
